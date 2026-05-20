@@ -1,0 +1,319 @@
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Shop & Booking</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --bg:#0b1220;
+    --panel:#111a2e;
+    --card:#0f1a30;
+    --text:#e5e7eb;
+    --muted:#9ca3af;
+    --primary:#4f7cff;
+    --border:rgba(255,255,255,0.08);
+    --radius:16px;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Inter, sans-serif;
+    background:linear-gradient(180deg,#070b14,#0b1220);
+    color:var(--text);
+}
+
+header{
+    padding:28px 20px;
+    text-align:center;
+    border-bottom:1px solid var(--border);
+    background:rgba(17,26,46,0.6);
+    backdrop-filter: blur(10px);
+}
+
+header h1{
+    margin:0;
+    font-size:22px;
+    letter-spacing:-0.02em;
+}
+
+.sub{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:6px;
+}
+
+.wrapper{
+    max-width:1100px;
+    margin:30px auto;
+    padding:0 20px;
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+}
+
+/* CARDS */
+.card{
+    background:rgba(17,26,46,0.7);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:18px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.3);
+}
+
+h2{
+    margin:0 0 14px;
+    font-size:16px;
+}
+
+/* PRODUCTS */
+.product{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px;
+    border-radius:12px;
+    margin-bottom:10px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--border);
+    transition:0.2s;
+}
+
+.product:hover{
+    transform:translateY(-2px);
+    border-color:rgba(79,124,255,0.4);
+}
+
+.product span{
+    font-size:14px;
+    color:var(--text);
+}
+
+/* BUTTONS */
+button{
+    background:var(--primary);
+    border:none;
+    color:white;
+    padding:8px 12px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:500;
+    transition:0.2s;
+}
+
+button:hover{
+    transform:translateY(-1px);
+    box-shadow:0 10px 20px rgba(79,124,255,0.25);
+}
+
+/* CART */
+ul{
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+li{
+    padding:10px;
+    border-bottom:1px solid var(--border);
+    font-size:14px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+li:hover{
+    color:#ff6b6b;
+}
+
+.total{
+    margin-top:12px;
+    font-weight:600;
+}
+
+/* BOOKING */
+.full{
+    max-width:1100px;
+    margin:20px auto 60px;
+    padding:0 20px;
+}
+
+form{
+    display:grid;
+    gap:12px;
+}
+
+.row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+input, select, textarea{
+    width:100%;
+    padding:10px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,0.03);
+    color:var(--text);
+    outline:none;
+    transition:0.2s;
+}
+
+input:focus, textarea:focus, select:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(79,124,255,0.2);
+}
+
+label{
+    font-size:12px;
+    color:var(--muted);
+}
+
+@media(max-width:900px){
+    .wrapper{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Shop & Booking</h1>
+    <div class="sub">Clean UI • Cart system • Booking flow</div>
+</header>
+
+<div class="wrapper">
+
+    <!-- PRODUCTS -->
+    <div class="card">
+        <h2>Products</h2>
+
+        <div class="product">
+            <span>Wireless Headphones</span>
+            <button onclick="add('Cakes',50)">Add $50</button>
+        </div>
+
+        <div class="product">
+            <span>Smart Watch</span>
+            <button onclick="add('Floral Perfumes',80)">Add $80</button>
+        </div>
+
+        <div class="product">
+            <span>Gaming Mouse</span>
+            <button onclick="add('Fresh Ingredients',30)">Add $30</button>
+        </div>
+
+        <div class="product">
+            <span>Mechanical Keyboard</span>
+            <button onclick="add('Cooking Tools',40)">Add $40</button>
+        </div>
+    </div>
+
+    <!-- CART -->
+    <div class="card">
+        <h2>Cart</h2>
+        <ul id="cart"></ul>
+        <div class="total">Total: $<span id="total">0</span></div>
+        <button onclick="clearCart()" style="margin-top:12px;width:100%;">Clear Cart</button>
+    </div>
+
+</div>
+
+<!-- BOOKING -->
+<div class="full">
+    <div class="card">
+        <h2>Booking Form</h2>
+
+        <form onsubmit="submitForm(event)">
+            <div class="row">
+                <div>
+                    <label>Name</label>
+                    <input required />
+                </div>
+                <div>
+                    <label>Email</label>
+                    <input type="email" required />
+                </div>
+            </div>
+
+            <div class="row">
+                <div>
+                    <label>Date</label>
+                    <input type="date" required />
+                </div>
+                <div>
+                    <label>Service</label>
+                    <select>
+                        <option>Consultation</option>
+                        <option>Repair</option>
+                        <option>Delivery</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label>Notes</label>
+                <textarea rows="4"></textarea>
+            </div>
+
+            <button type="submit">Confirm Booking</button>
+        </form>
+    </div>
+</div>
+
+<script>
+let cart = [];
+let total = 0;
+
+function add(name, price){
+    cart.push({name, price});
+    total += price;
+    render();
+}
+
+function render(){
+    const list = document.getElementById("cart");
+    const totalEl = document.getElementById("total");
+
+    list.innerHTML = "";
+
+    cart.forEach((item, i)=>{
+        let li = document.createElement("li");
+        li.textContent = `${item.name} - $${item.price}`;
+        li.onclick = () => remove(i);
+        list.appendChild(li);
+    });
+
+    totalEl.textContent = total;
+}
+
+function remove(i){
+    total -= cart[i].price;
+    cart.splice(i,1);
+    render();
+}
+
+function clearCart(){
+    cart = [];
+    total = 0;
+    render();
+}
+
+function submitForm(e){
+    e.preventDefault();
+    alert("Booking confirmed!");
+    e.target.reset();
+}
+</script>
+
+</body>
+</html>
