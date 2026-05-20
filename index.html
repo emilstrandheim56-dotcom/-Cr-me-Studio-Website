@@ -1,0 +1,233 @@
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Shop & Booking</title>
+
+<style>
+    body{
+        font-family: Arial, sans-serif;
+        margin:0;
+        background:#f6f6f6;
+        color:#333;
+    }
+
+    header{
+        background:#222;
+        color:#fff;
+        padding:20px;
+        text-align:center;
+    }
+
+    .container{
+        display:flex;
+        gap:20px;
+        padding:20px;
+        max-width:1100px;
+        margin:auto;
+    }
+
+    .products, .cart, .booking{
+        background:#fff;
+        padding:15px;
+        border-radius:10px;
+        box-shadow:0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .products{
+        flex:2;
+    }
+
+    .cart{
+        flex:1;
+        height:fit-content;
+    }
+
+    .booking{
+        max-width:1100px;
+        margin:0 auto 40px;
+    }
+
+    .product{
+        display:flex;
+        justify-content:space-between;
+        padding:10px;
+        border-bottom:1px solid #eee;
+    }
+
+    button{
+        padding:6px 10px;
+        border:none;
+        background:#222;
+        color:#fff;
+        border-radius:5px;
+        cursor:pointer;
+    }
+
+    button:hover{
+        opacity:0.8;
+    }
+
+    ul{
+        padding-left:15px;
+    }
+
+    input, select, textarea{
+        width:100%;
+        padding:8px;
+        margin:6px 0 12px;
+        border:1px solid #ccc;
+        border-radius:6px;
+    }
+
+    .row{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+    }
+
+    .total{
+        font-weight:bold;
+        margin-top:10px;
+    }
+
+    @media(max-width:800px){
+        .container{
+            flex-direction:column;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Simple Shop & Booking Page</h1>
+</header>
+
+<div class="container">
+
+    <!-- PRODUCTS -->
+    <div class="products">
+        <h2>Products</h2>
+
+        <div class="product">
+            <span>Wireless Headphones - $50</span>
+            <button onclick="addToCart('Headphones', 50)">Add</button>
+        </div>
+
+        <div class="product">
+            <span>Smart Watch - $80</span>
+            <button onclick="addToCart('Smart Watch', 80)">Add</button>
+        </div>
+
+        <div class="product">
+            <span>Gaming Mouse - $30</span>
+            <button onclick="addToCart('Gaming Mouse', 30)">Add</button>
+        </div>
+
+        <div class="product">
+            <span>Keyboard - $40</span>
+            <button onclick="addToCart('Keyboard', 40)">Add</button>
+        </div>
+    </div>
+
+    <!-- CART -->
+    <div class="cart">
+        <h2>Cart</h2>
+        <ul id="cartList"></ul>
+        <div class="total">Total: $<span id="total">0</span></div>
+        <button onclick="clearCart()" style="margin-top:10px;">Clear Cart</button>
+    </div>
+
+</div>
+
+<!-- BOOKING FORM -->
+<div class="booking">
+    <h2>Booking Form</h2>
+
+    <form onsubmit="submitBooking(event)">
+        <div class="row">
+            <div>
+                <label>Name</label>
+                <input type="text" required />
+            </div>
+            <div>
+                <label>Email</label>
+                <input type="email" required />
+            </div>
+        </div>
+
+        <div class="row">
+            <div>
+                <label>Date</label>
+                <input type="date" required />
+            </div>
+            <div>
+                <label>Service Type</label>
+                <select>
+                    <option>Consultation</option>
+                    <option>Repair</option>
+                    <option>Delivery</option>
+                </select>
+            </div>
+        </div>
+
+        <label>Notes</label>
+        <textarea rows="4" placeholder="Write your message..."></textarea>
+
+        <button type="submit">Submit Booking</button>
+    </form>
+</div>
+
+<script>
+let cart = [];
+let total = 0;
+
+function addToCart(name, price){
+    cart.push({name, price});
+    total += price;
+    renderCart();
+}
+
+function renderCart(){
+    const list = document.getElementById("cartList");
+    const totalEl = document.getElementById("total");
+
+    list.innerHTML = "";
+
+    cart.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.textContent = `${item.name} - $${item.price}`;
+
+        li.onclick = () => removeItem(index);
+        li.style.cursor = "pointer";
+
+        list.appendChild(li);
+    });
+
+    totalEl.textContent = total;
+}
+
+function removeItem(index){
+    total -= cart[index].price;
+    cart.splice(index, 1);
+    renderCart();
+}
+
+function clearCart(){
+    cart = [];
+    total = 0;
+    renderCart();
+}
+
+function submitBooking(e){
+    e.preventDefault();
+    alert("Booking submitted successfully!");
+    e.target.reset();
+}
+</script>
+
+</body>
+</html>
